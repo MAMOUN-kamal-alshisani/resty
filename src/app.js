@@ -16,18 +16,14 @@ class App extends React.Component {
     this.state = {
       data: null,
       requestParams: {},
+      json:[]
     };
   }
 
-  callApi = (requestParams) => {
+  callApi = (requestParams,formData) => {
     // mock output
-    const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
-    };
+    const data = formData
+
     this.setState({data, requestParams});
   }
 
@@ -35,9 +31,10 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
-        <Form ApiCall={this.callApi} />
+       
+        <div id="span1">URL: {this.state.requestParams.url}</div>
+        <span id="div1"> {this.state.requestParams.method}</span>
+        <Form handleApiCall={this.callApi} />
         <Results data={this.state.data} />
         <Footer />
       </React.Fragment>
