@@ -1,23 +1,22 @@
 import React, { useState } from 'react';
-import {userState} from 'react'
 import './form.scss';
 import axios from "axios";
 
 function Form (props){
-    const [Textarea, setTextarea] = useState(false);
-    const [method, setMethod] = useState('GET');
 
-    const [url, setUrl ] = useState('');
-    const [request, setRequest] = useState('');
-
+    const [method, setMethod] = useState('get');
+    const [url, setUrl ] = useState('https://pokeapi.co/api/v2/pokemon');
+const [textformat,setTextFormat] =useState(false);
+ const [reqBody, setreqBody] = useState('')
     async function handleSubmit (e){
     try {
     e.preventDefault();
     const formData = await axios({
         method: method,
-        url: url
+        url: url,
+        reqBody:reqBody
     });
-    props.ApiCall(formData,request);
+   props.handleApiCall(formData);
 }catch(error){console.log(error);}
 }
 
@@ -27,17 +26,15 @@ function urlHandler(e){
 }
 function methodHandler(e){
     setMethod(e.target.id)
-    setTextarea(false)
+ 
 }
-function TextareaHandler(e){
-    setTextarea(true)
-    setMethod(e.target.value)
+function TextFormatHandler(e){
+    setTextFormat(true)
+    setMethod(e.target.id)
 }
 
-
-function requestHandler(e){
-    setRequest(e.target.value)
-
+function reqBodyHandler(e){
+    setreqBody(e.target.value)
 }
     return(
 
@@ -45,17 +42,18 @@ function requestHandler(e){
         <form onSubmit={handleSubmit}>
 
 <label>
-<span>URL:</span>
-<input name='url' type='text'onChange={urlHandler}/>
-<button type ="submit ">GO!!!</button>
+{/* <span>URL:</span> */}
+<input name='url' type='text' id="texturl"onChange={urlHandler} placeholder={"http://api/url"}/>
+<button type ="submit " id="buttonId">GO!!!</button>
 </label>
 <label className="methods">
-    <span id= "get" onClick={methodHandler}>GET</span>
-    <span id= "POST" onClick={TextareaHandler}>POST</span>
-    <span id= "PUT" onClick={TextareaHandler}>PUT</span>
-    <span id= "DELETE" onClick={methodHandler}>DELETE</span>
+    <span id= "get" value="get" onClick={methodHandler}>GET</span>
+    <span id= "post" value="post" onClick={TextFormatHandler}>POST</span>
+    <span id= "put" value="put" onClick={TextFormatHandler}>PUT</span>
+    <span id= "delete" value="delete" onClick={methodHandler}>DELETE</span>
 </label>
-<textarea cols="20" rows="10" onChange={requestHandler}></textarea>
+{textformat &&(
+<textarea cols="100" rows="30" onChange={reqBodyHandler} id="textarea"></textarea>)}
         </form>
         </>
     );

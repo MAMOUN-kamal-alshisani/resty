@@ -1,11 +1,29 @@
 
 $backgroundColor: #efefef;
 $radius: 40%;
+body form input[type=text]{
+  background:#d6d1d1;
+  border: none;
+  border-bottom: 1px solid #000;
+  font-size: 1.1rem;
+  margin: 0;
+  outline: none;
+  padding: .25rem;
+  transition: all .4s ease-out;
+  width: 80%;
 
+}
+#buttonId{
+  margin-left: 20px;
+}
+
+#textarea{
+
+}
 form {
   display: inline-block;
-  margin: auto;
-  width: 200px;
+  // margin: auto;
+  // width: 200px;
 
   label {
     display: flex;

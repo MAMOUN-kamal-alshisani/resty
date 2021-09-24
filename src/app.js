@@ -8,6 +8,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
+import axios from 'axios';
 
 class App extends React.Component {
 
@@ -16,18 +17,23 @@ class App extends React.Component {
     this.state = {
       data: null,
       requestParams: {},
+      json:[]
     };
   }
 
-  callApi = (requestParams) => {
-    // mock output
+  callApi = async(requestParams) => {
     const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
+       dataRes:[await axios.get('https://pokeapi.co/api/v2/pokemon')]
+      // count: 2,
+      // count: 2,
+      // results: [
+      //   {name: 'fake thing 1', url: 'http://fakethings.com/1'},
+      //   {name: 'fake thing 2', url: 'http://fakethings.com/2'},
+      // ],
     };
+    // mock output
+    // const data = formData
+
     this.setState({data, requestParams});
   }
 
@@ -35,9 +41,10 @@ class App extends React.Component {
     return (
       <React.Fragment>
         <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
-        <Form ApiCall={this.callApi} />
+       
+        <div id="span1">{this.state.requestParams.url}</div>
+        <span id="div1"> {this.state.requestParams.method}</span>
+        <Form handleApiCall={this.callApi} />
         <Results data={this.state.data} />
         <Footer />
       </React.Fragment>
