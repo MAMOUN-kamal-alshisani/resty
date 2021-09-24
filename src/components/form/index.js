@@ -3,20 +3,20 @@ import './form.scss';
 import axios from "axios";
 
 function Form (props){
-    const [Textarea, setTextarea] = useState(false);
-    const [method, setMethod] = useState('GET');
-    const [url, setUrl ] = useState('');
-    const [requestBody, setRequestBody] = useState('');
 
+    const [method, setMethod] = useState('get');
+    const [url, setUrl ] = useState('https://pokeapi.co/api/v2/pokemon');
+const [textformat,setTextFormat] =useState(false);
+ const [reqBody, setreqBody] = useState('')
     async function handleSubmit (e){
     try {
     e.preventDefault();
     const formData = await axios({
         method: method,
         url: url,
-        requestBody:requestBody
+        reqBody:reqBody
     });
-    props.handleApiCall(formData,requestBody);
+   props.handleApiCall(formData);
 }catch(error){console.log(error);}
 }
 
@@ -25,17 +25,16 @@ function urlHandler(e){
 
 }
 function methodHandler(e){
-    setMethod(e.target.value)
-    setTextarea(false)
+    setMethod(e.target.id)
+ 
 }
-function TextareaHandler(e){
-    setTextarea(true)
-    setMethod(e.target.value)
+function TextFormatHandler(e){
+    setTextFormat(true)
+    setMethod(e.target.id)
 }
 
 function reqBodyHandler(e){
-    setRequestBody(e.target.value)
-
+    setreqBody(e.target.value)
 }
     return(
 
@@ -44,17 +43,17 @@ function reqBodyHandler(e){
 
 <label>
 {/* <span>URL:</span> */}
-<input name='url' type='text' id="texturl"onChange={urlHandler}/>
+<input name='url' type='text' id="texturl"onChange={urlHandler} placeholder={"http://api/url"}/>
 <button type ="submit " id="buttonId">GO!!!</button>
 </label>
 <label className="methods">
     <span id= "get" value="get" onClick={methodHandler}>GET</span>
-    <span id= "POST" value="POST" onClick={TextareaHandler}>POST</span>
-    <span id= "PUT" value="PUT" onClick={TextareaHandler}>PUT</span>
-    <span id= "DELETE" value="DELETE" onClick={methodHandler}>DELETE</span>
+    <span id= "post" value="post" onClick={TextFormatHandler}>POST</span>
+    <span id= "put" value="put" onClick={TextFormatHandler}>PUT</span>
+    <span id= "delete" value="delete" onClick={methodHandler}>DELETE</span>
 </label>
-{Textarea &&(
-<textarea cols="20" rows="10" onChange={reqBodyHandler}></textarea>)}
+{textformat &&(
+<textarea cols="100" rows="30" onChange={reqBodyHandler} id="textarea"></textarea>)}
         </form>
         </>
     );
