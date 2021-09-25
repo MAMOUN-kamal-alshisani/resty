@@ -13,9 +13,8 @@ function Results(props){
         {/* <pre>{props.data ? util.inspect(props.data, undefined, 2) : null}</pre> */}
         {/* <pre>{props.data ? JSON.stringify(props.data, undefined, 2) : <Loading/>}</pre> */}
 
-        <pre> {props.data ? <ReactJson src={props.data} theme='paraiso' Enable Edit={true}/> : <Loading />}</pre>
+        <pre> {props.data ? <ReactJson src={props.data} theme='paraiso'/> : <Loading />}</pre>
 
-  
       </section>
     
   );

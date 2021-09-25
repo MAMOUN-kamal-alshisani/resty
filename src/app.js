@@ -9,7 +9,8 @@ import Footer from './components/footer';
 import Form from './components/form';
 import Results from './components/results';
 import axios from 'axios';
-import { useState ,useEffect} from 'react';
+import History from './components/history/history'
+import { useState ,useEffect, useReducer} from 'react';
 const fake = {
   count: 2,
   results: [
@@ -18,11 +19,47 @@ const fake = {
   ],
 };
 
+const initialState = {
+  historyOfRequests: [],
+ 
+ };
+
+
+
+function historyOfRequestsReducer(state =initialState, action) {
+  
+  switch (action.type) {
+
+    case "RequestsHistory":
+      return {
+        ...state,
+       
+        Requests: [...state.historyOfRequests, action.payload],
+      };
+      default:
+        return state;
+    }
+  }
+
+  function addHistories(requestParams, data) {
+    return {
+      type: 'addhistory',
+      payload: {
+        url: requestParams.url,
+        method: requestParams.method,
+        result: data,
+      },
+    };
+  }
+
+
 function App()  {
 
 const [data, setData]= useState(fake)
 const [requestParams, setRequestParams]=useState({})
 const [url,  setUrl ] = useState('');
+const [state, dispatch] = useReducer(historyOfRequestsReducer, initialState);
+
 
 
 
@@ -39,6 +76,10 @@ Results:getdata.data,
 Headers:getdata.headers,
 
     }
+    const action ={
+      type: "add",
+      payload:data}
+      dispatch(addHistories(requestParams,action));
     setData({data, requestParams})
   }catch(e){
 
@@ -46,21 +87,6 @@ Headers:getdata.headers,
   }
 
 },[requestParams])
-
-
-
-
-// useEffect(async() =>  {
-
-//     let headdata = await axios.get(requestParams.url)
-//     let data = {
-
-// Headers:head.headers,
-
-//   }
-//   setData({data, requestParams})
-// },[requestParams])
-
 
 
 
@@ -77,6 +103,7 @@ function callApi(requestParams){
       <div id="span1">URL :{requestParams.url}</div>
       <span id="div1"> method : {requestParams.method}</span>
       <Form handleApiCall={callApi} />
+      <History handleApiCall={callApi} RequestHistory={state.historyOfRequests}/>
       <Results data={data} />
       <Footer />
     </React.Fragment>

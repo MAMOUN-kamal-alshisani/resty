@@ -36,7 +36,7 @@ function TextFormatHandler(e){
 }
 
 function reqBodyHandler(e){
-    let data = JSON.parse(e.target.value);
+    let data =(e.target.value);
     setreqBody(data);
 }
 
