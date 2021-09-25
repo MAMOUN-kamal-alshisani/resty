@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import './form.scss';
 import axios from "axios";
 
 function Form (props){
 
     const [method, setMethod] = useState('get');
-    const [url, setUrl ] = useState('https://pokeapi.co/api/v2/pokemon');
+    const [url, setUrl ] = useState('');
 const [textformat,setTextFormat] =useState(false);
- const [reqBody, setreqBody] = useState('')
+ const [reqBody, setreqBody] = useState("")
+
     async function handleSubmit (e){
     try {
+
     e.preventDefault();
-    const formData = await axios({
+    const formData =({
         method: method,
         url: url,
         reqBody:reqBody
@@ -34,8 +36,28 @@ function TextFormatHandler(e){
 }
 
 function reqBodyHandler(e){
-    setreqBody(e.target.value)
+    let data = JSON.parse(e.target.value);
+    setreqBody(data);
 }
+
+function changeMethodGet(e){
+    setMethod('get')
+    setTextFormat(false)
+}
+
+function changeMethodPost(e){
+    setMethod('post')
+    setTextFormat(true)
+}
+function changeMethodUpdate(e){
+    setMethod('put')
+    setTextFormat(true)
+}
+function changeMethodDelete(e){
+    setMethod('delete')
+    setTextFormat(false)
+}
+
     return(
 
         <>
@@ -47,10 +69,10 @@ function reqBodyHandler(e){
 <button type ="submit " id="buttonId">GO!!!</button>
 </label>
 <label className="methods">
-    <span id= "get" value="get" onClick={methodHandler}>GET</span>
-    <span id= "post" value="post" onClick={TextFormatHandler}>POST</span>
-    <span id= "put" value="put" onClick={TextFormatHandler}>PUT</span>
-    <span id= "delete" value="delete" onClick={methodHandler}>DELETE</span>
+    <span id= "get" value="get" onClick={changeMethodGet}>GET</span>
+    <span id= "post" value="post" onClick={changeMethodPost}>POST</span>
+    <span id= "put" value="put" onClick={changeMethodUpdate}>PUT</span>
+    <span id= "delete" value="delete" onClick={changeMethodDelete}>DELETE</span>
 </label>
 {textformat &&(
 <textarea cols="100" rows="30" onChange={reqBodyHandler} id="textarea"></textarea>)}
